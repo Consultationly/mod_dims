@@ -1,0 +1,34 @@
+name: Publish mod-dims Docker Image
+
+on:
+  push:
+    branches: ['release'] 
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    name: Build docker image and push it to ghcr registry
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: npm run build:prod
+
+      - name: Log in to the container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Container Image
+        run: docker build -t mod-dims:latest -f docker/Dockerfile . --pull --no-cache -t ghcr.io/consultationly/medapp/mod-dims
+
+      - name: Publish
+        run: docker image push ghcr.io/consultationly/medapp/mod-dims
+
