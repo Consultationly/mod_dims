@@ -2,7 +2,7 @@ name: Publish mod-dims Docker Image
 
 on:
   push:
-    branches: ['release']
+    branches: ['main']
   workflow_dispatch:
 
 env:
@@ -57,7 +57,7 @@ jobs:
           echo "${{ steps.version.outputs.new }}" > VERSION
           git add VERSION
           git commit -m "chore: bump version to v${{ steps.version.outputs.new }} [skip ci]"
-          git push origin HEAD:release
+          git push origin HEAD:main
 
       - name: Dispatch chart update
         uses: peter-evans/repository-dispatch@v3
