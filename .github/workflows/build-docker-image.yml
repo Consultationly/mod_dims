@@ -3,6 +3,9 @@ name: Publish mod-dims Docker Image
 on:
   push:
     branches: ['main']
+    paths-ignore:
+      - '.github/**'
+      - 'VERSION'
   workflow_dispatch:
 
 env:
