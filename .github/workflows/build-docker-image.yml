@@ -58,6 +58,8 @@ jobs:
           git add VERSION
           git commit -m "chore: bump version to v${{ steps.version.outputs.new }} [skip ci]"
           git push origin HEAD:main
+          git tag "v${{ steps.version.outputs.new }}"
+          git push origin "v${{ steps.version.outputs.new }}"
 
       - name: Dispatch chart update
         uses: peter-evans/repository-dispatch@v3
